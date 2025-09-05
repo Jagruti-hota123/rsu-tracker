@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/dashboard";
 import { ThemeProvider } from "./components/ui/themeProvider";
@@ -15,6 +15,7 @@ export default function App() {
 
         <div className="flex-1 overflow-y-auto p-4">
           <Routes>
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/all-grants" element={<AllGrantsPage />} />
             <Route path="/addEditGrantPage" element={<AddEditGrantPage />} />
