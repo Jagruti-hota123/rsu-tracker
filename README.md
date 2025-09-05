@@ -1,69 +1,44 @@
-# React + TypeScript + Vite
+# Dynamic Portfolio Grants Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **frontend-only dashboard** to visualize stock grants and portfolio insights.
 
-Currently, two official plugins are available:
+## Features
+- Total Portfolio Value, Overall Gains/Losses, Daily Change.
+- Dynamic Company Breakdown Pie Chart.
+- Calculates **vested shares** for:
+  - Standard vesting (25% per year)
+  - Custom vesting schedules
+- Handles **API rate limits** using sample data.
+- Dark mode support.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Sample Data
+```ts
+export const sampleData = [
+  { id: "1", company: "Apple Inc.", symbol: "AAPL", grantDate: "2023-01-15", numberOfShares: 100, grantPrice: 150.25, vestingSchedule: "standard", vestedShares: 25, currentPrice: 400.25 },
+  { id: "2", company: "Alphabet Inc.", symbol: "GOOGL", grantDate: "2023-02-01", numberOfShares: 50, grantPrice: 120.8, vestingSchedule: "standard", vestedShares: 12, currentPrice: 400.8 },
+  { id: "3", company: "Microsoft Corporation", symbol: "MSFT", grantDate: "2023-03-10", numberOfShares: 75, grantPrice: 380.15, vestingSchedule: "custom", customVesting: [{ vestingDate: "2024-03-10", percentageVested: 25 }, { vestingDate: "2025-03-10", percentageVested: 50 }, { vestingDate: "2026-03-10", percentageVested: 100 }], vestedShares: 18, currentPrice: 400.15 },
+  { id: "4", company: "Tesla Inc.", symbol: "TSLA", grantDate: "2023-04-20", numberOfShares: 200, grantPrice: 220.9, vestingSchedule: "standard", vestedShares: 50, currentPrice: 400.9 },
+  { id: "5", company: "Amazon.com Inc.", symbol: "AMZN", grantDate: "2023-05-15", numberOfShares: 80, grantPrice: 125.6, vestingSchedule: "standard", vestedShares: 20, currentPrice: 400.6 },
+];
+Tech & Dependencies
+React, TypeScript, TailwindCSS, shadcn/ui, Radix UI, Recharts
 
-## Expanding the ESLint configuration
+React Router, React Query, dayjs, uuid, clsx
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+How It Works
+Uses Alpha Vantage API for current prices (with rate-limit handling via sample data).
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Computes vested shares dynamically:
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+Uses standard or custom vesting schedules.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Skips API call if currentPrice exists.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Run Locally
+bash
+Copy code
+git clone <repo-url>
+cd <project-folder>
+npm install
+npm run dev
+Open http://localhost:5173
